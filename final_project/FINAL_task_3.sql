@@ -50,7 +50,7 @@ CREATE OR REPLACE TRIGGER employees_history
 	FOR EACH ROW
 DECLARE
     v_fired_date DATE;
-		v_emp_exists NUMBER;
+    v_emp_exists NUMBER;
 BEGIN
     IF INSERTING THEN
         INSERT INTO employees_history (employee_id, hire_date)
