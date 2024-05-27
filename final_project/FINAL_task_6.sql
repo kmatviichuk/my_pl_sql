@@ -1,4 +1,4 @@
-﻿-- 6. Створення механізму синхронізації даних з API у базу даних
+-- 6. Створення механізму синхронізації даних з API у базу даних
 
 -- Процедура api_nbu_sync з пакету util:
 PROCEDURE api_nbu_sync IS
@@ -24,11 +24,12 @@ BEGIN
 					INSERT INTO cur_exchange (r030, txt, rate, cur, exchangedate, change_date)
 						SELECT r030, txt, rate, cur, exchangedate, SYSDATE
 						FROM TABLE(util.get_currency(cc.curr));
-						COMMIT;
 				END;
 		END LOOP;
+		
+		COMMIT;
 
-	log_util.log_finish(p_proc_name => 'api_nbu_sync', p_text => 'Синхронізація курс валют успішно завершена.');
+	log_util.log_finish(p_proc_name => 'api_nbu_sync', p_text => 'Синхронізація успішно завершена. Оновлено курс валют: '|| v_list_currencies);
 
 EXCEPTION
     WHEN OTHERS THEN
