@@ -24,6 +24,7 @@ BEGIN
               INSERT INTO cur_exchange (r030, txt, rate, cur, exchangedate, change_date)
               SELECT r030, txt, rate, cur, exchangedate, SYSDATE
               FROM TABLE(util.get_currency(cc.curr));
+	      COMMIT;
           END;
       END LOOP;
 
