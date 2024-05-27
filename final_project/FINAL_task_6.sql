@@ -8,13 +8,13 @@ PROCEDURE api_nbu_sync IS
 BEGIN
   
   BEGIN
-			SELECT value_text INTO v_list_currencies
-			FROM sys_params
-			WHERE param_name = 'list_currencies';
-		EXCEPTION
-			WHEN NO_DATA_FOUND THEN
-					log_util.log_error(p_proc_name => 'api_nbu_sync', p_sqlerrm => 'Список валют не знайдено.');
-					raise_application_error(-20001, 'Список валют не знайдено. Перевірте коректність даних.');
+	SELECT value_text INTO v_list_currencies
+	FROM sys_params
+	WHERE param_name = 'list_currencies';
+  EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		log_util.log_error(p_proc_name => 'api_nbu_sync', p_sqlerrm => 'Список валют не знайдено.');
+		raise_application_error(-20001, 'Список валют не знайдено. Перевірте коректність даних.');
   END;
 
       FOR cc IN 
@@ -43,9 +43,9 @@ BEGIN
         job_action      => 'BEGIN util.api_nbu_sync; END;',
         start_date      => SYSDATE,
         repeat_interval => 'FREQ=DAILY; BYHOUR=6; BYMINUTE=00',
-				end_date        => TO_DATE(NULL),
+	end_date        => TO_DATE(NULL),
         enabled         => TRUE,
-				auto_drop       => FALSE,
+	auto_drop       => FALSE,
         comments        => 'Оновлення курс валют'
     );
 END;
